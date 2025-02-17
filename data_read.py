@@ -115,17 +115,17 @@ plot_animation() #It receives data from the sensor and draws graphs simultaneous
 voltage_values = []
 
 while True:     
-    for _ in range(ORNEK_SAYISI):
+    for _ in range(SAMPLE_COUNT):
         try:
-            _, voltaj = ads1015_oku()
+            _, voltage = ads1015_oku()
         except IOError:  # We catch IO errors
-            voltaj=0    #When it fails, it sets the voltage value to 0 and provides you with feedback by returning a constant value. For example, if the last measured value was 200, it continues with 200.
+            voltage=0    #When it fails, it sets the voltage value to 0 and provides you with feedback by returning a constant value. For example, if the last measured value was 200, it continues with 200.
             continue  # Continue loop on error
-        voltaj -= zero_point  # If no error occurs, this action is performed.
-        voltajlar.append(voltaj)
+        voltage -= zero_point  # If no error occurs, this action is performed.
+        voltage_values.append(voltage)
         time.sleep(0.001)
     
-    rms_deger = rms_hesapla(voltajlar)
+    rms_deger = rms_hesapla(voltage_values)
     rms_deger = round(rms_deger * 12.5, 2)
     print(rms_deger)
     write_data(rms_deger)
