@@ -46,7 +46,7 @@ This project involves reading voltage sensor data using the ADS1015 ADC module a
    ```
 4. **Run the Script:** Execute the following command to read and visualize sensor data:
    ```sh
-   python3 read_sensor.py
+   python3 data_read.py
    ```
 
 ## License
