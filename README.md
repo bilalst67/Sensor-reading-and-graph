@@ -51,5 +51,5 @@ This project involves reading voltage sensor data using the ADS1015 ADC module a
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the General Public License - see the [LICENSE](LICENSE) file for details.
 
