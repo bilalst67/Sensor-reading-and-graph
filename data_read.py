@@ -44,7 +44,11 @@ def calibrate():
     global zero_point
     measurements = []
     for _ in range(1000):  
-        _, voltage = ads1015_read()
+                try:
+                    _, voltaj = ads1015_oku()
+                except IOError:  # We catch IO errors
+                    voltaj=0    #When it fails, it sets the voltage value to 0 and provides you with feedback by returning a constant value. For example, if the last measured value was 200, it continues with 200.
+                    continue  # Continue loop on error
         measurements.append(voltage)
         time.sleep(0.005)  # Faster calibration
     zero_point = round(sum(measurements) / len(measurements), 3)  # Set zero point more precisely
@@ -65,7 +69,11 @@ def plot_animation():
         voltage_values = []  # List to store voltage readings
         global rms_value
         for _ in range(SAMPLE_COUNT):
-            _, voltage = ads1015_read()
+                    try:
+                        _, voltaj = ads1015_oku()
+                    except IOError:  # We catch IO errors
+                        voltaj=0    #When it fails, it sets the voltage value to 0 and provides you with feedback by returning a constant value. For example, if the last measured value was 200, it continues with 200.
+                        continue  # Continue loop on error
             voltage -= zero_point  # Remove the zero point offset
             voltage_values.append(voltage)
             time.sleep(0.001)
@@ -106,15 +114,19 @@ zero_point = 0.271  # Manually set the zero point for the sensor
 plot_animation() #It receives data from the sensor and draws graphs simultaneously. If you are going to use it, there is no need for the while loop below.
 voltage_values = []
 
-while True:
-    """Main loop for continuously reading voltage and calculating RMS."""
-    for _ in range(SAMPLE_COUNT):
-            _, voltage = ads1015_read()  # Read voltage data
-            voltage -= zero_point  # Subtract zero point
-            voltage_values.append(voltage)
-            time.sleep(0.001)
-    rms_value = rms_calculate(voltage_values)  # Calculate RMS value
-    rms_value = round(rms_value * 12.5, 2)  # Scale the RMS value
-    print(rms_value)  # Print the RMS value
-    write_data(rms_value)  # Save the RMS value to CSV
-    time.sleep(0.05)  # Delay before the next measurement
+while True:     
+    for _ in range(ORNEK_SAYISI):
+        try:
+            _, voltaj = ads1015_oku()
+        except IOError:  # We catch IO errors
+            voltaj=0    #When it fails, it sets the voltage value to 0 and provides you with feedback by returning a constant value. For example, if the last measured value was 200, it continues with 200.
+            continue  # Continue loop on error
+        voltaj -= zero_point  # If no error occurs, this action is performed.
+        voltajlar.append(voltaj)
+        time.sleep(0.001)
+    
+    rms_deger = rms_hesapla(voltajlar)
+    rms_deger = round(rms_deger * 12.5, 2)
+    print(rms_deger)
+    write_data(rms_deger)
+    time.sleep(0.05)
