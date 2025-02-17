@@ -110,7 +110,7 @@ def write_data(data):
 write_data_title()  # Write the header to the CSV file
 zero_point = 0.271  # Manually set the zero point for the sensor
 # Dynamic zero point calibration (commented out)
-#calibrate() #Starts the calibration and assigns the resulting zero point to the zero point above. It may not be assigned, so change it yourself.
+calibrate() #Starts the calibration and assigns the resulting zero point to the zero point above. It may not be assigned, so change it yourself.
 plot_animation() #It receives data from the sensor and draws graphs simultaneously. If you are going to use it, there is no need for the while loop below.
 voltage_values = []
 
@@ -125,8 +125,8 @@ while True:
         voltage_values.append(voltage)
         time.sleep(0.001)
     
-    rms_deger = rms_hesapla(voltage_values)
-    rms_deger = round(rms_deger * 12.5, 2)
-    print(rms_deger)
-    write_data(rms_deger)
+    rms_value = rms_calculate(voltage_values)
+    rms_value = round(rms_value * 12.5, 2) # Delete the value 12.5, measure with a multimeter and add a custom value to your voltage
+    print(rms_value)
+    write_data(rms_value)
     time.sleep(0.05)
