@@ -113,7 +113,8 @@ zero_point = 0.271  # Manually set the zero point for the sensor
 calibrate() #Starts the calibration and assigns the resulting zero point to the zero point above. It may not be assigned, so change it yourself.
 plot_animation() #It receives data from the sensor and draws graphs simultaneously. If you are going to use it, there is no need for the while loop below.
 voltage_values = []
-
+"""
+This code is don't uses:If plot_animation is not used, you can use the while loop.
 while True:     
     for _ in range(SAMPLE_COUNT):
         try:
@@ -130,3 +131,4 @@ while True:
     print(rms_value)
     write_data(rms_value)
     time.sleep(0.05)
+"""
